@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fishing Game</title>
+    <style>
+        /* Your existing CSS styles here */
+
+        /* Additional styles for the login and sign-up forms */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .auth-form input {
+            margin: 5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginForm" class="auth-form">
+        <h2>Login</h2>
+        <input type="text" id="loginUsername" placeholder="Username">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+    <div id="signupForm" class="auth-form">
+        <h2>Sign Up</h2>
+        <input type="text" id="signupUsername" placeholder="Username">
+        <input type="password" id="signupPassword" placeholder="Password">
+        <button onclick="signup()">Sign Up</button>
+    </div>
+    <div id="gameArea" style="display: none;">
+        <button id="fishButton" onclick="fish()">Fish</button>
+        <button id="sellButton" onclick="sell()">Sell</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        async function sendMessageToDiscord(content) {
+            const webhookUrl = 'https://discord.com/api/webhooks/1132055390616563722/GDXEGB5DTEn1YrCfL_Q4X3H4GMI4OnjJGXYTxr3cVc1eX14eLglRyFZTrAmBz9NBeWFG';
+            const data = {
+                content: content
+            };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    console.log('Message sent to Discord successfully');
+                } else {
+                    console.error('Failed to send message to Discord');
+                }
+            } catch (error) {
+                console.error('Error sending message to Discord:', error);
+            }
+        }
+
+        function login() {
+            const inputUsername = document.getElementById("loginUsername").value;
+            const inputPassword = document.getElementById("loginPassword").value;
+
+            // Add your authentication logic here
+            if (inputUsername === "demo" && inputPassword === "password") {
+                // Send message to Discord on login
+                const message = `Existing user "${inputUsername}" joined!`;
+                sendMessageToDiscord(message);
+
+                // Existing login logic
+                // ...
+
+                username = inputUsername;
+                isLoggedIn = true;
+
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("signupForm").style.display = "none";
+                document.getElementById("gameArea").style.display = "block";
+            } else {
+                alert("Invalid username or password. Please try again.");
+            }
+        }
+
+        function signup() {
+            const inputUsername = document.getElementById("signupUsername").value;
+            const inputPassword = document.getElementById("signupPassword").value;
+
+            // Add your sign-up logic here
+            // For simplicity, we'll just simulate a successful sign-up
+            // ...
+
+            // Send message to Discord on sign-up
+            const message = `New user "${inputUsername}" joined!`;
+            sendMessageToDiscord(message);
+
+            username = inputUsername;
+            isLoggedIn = true;
+
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("signupForm").style.display = "none";
+            document.getElementById("gameArea").style.display = "block";
+        }
+
+        // Your existing JavaScript code for the fishing game
+        // ...
+
+        function fish() {
+            if (!isLoggedIn) {
+                alert("Please login or sign up first.");
+                return;
+            }
+            // Rest of the fish function
+        }
+
+        function sell() {
+            if (!isLoggedIn) {
+                alert("Please login or sign up first.");
+                return;
+            }
+            // Rest of the sell function
+        }
+    </script>
+</body>
+</html>
